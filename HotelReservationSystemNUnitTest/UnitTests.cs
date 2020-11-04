@@ -36,8 +36,8 @@ namespace HotelReservationSystemNUnitTest
             hotelDetailsTestObj.AddHotel("Lakewood",3, 110, 90);
             hotelDetailsTestObj.AddHotel("Bridgewood",4, 150, 50);
             hotelDetailsTestObj.AddHotel("Ridgewood",5, 220, 150);
-            HotelReservation hotelReservationTestOj = new HotelReservation();
-            List<string> result = hotelReservationTestOj.FindCheapestHotels(Convert.ToDateTime("10/09/2020"), Convert.ToDateTime("11/09/2020"));
+            HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("10/09/2020"), Convert.ToDateTime("11/09/2020"));
+            List<string> result = hotelReservationTestOj.FindCheapestHotels();
             Assert.AreEqual(expected, result[0]);
         }
         [Test]
@@ -49,8 +49,8 @@ namespace HotelReservationSystemNUnitTest
                 hotelDetailsTestObj.AddHotel("Lakeood",3, 110, 90);
                 hotelDetailsTestObj.AddHotel("Bridewood",4, 150, 50);
                 hotelDetailsTestObj.AddHotel("Ridewood",5, 220, 150);
-                HotelReservation hotelReservationTestOj = new HotelReservation();
-                List<string> result = hotelReservationTestOj.FindCheapestHotels(Convert.ToDateTime("16/09/2020"), Convert.ToDateTime("11/09/2020"));
+                HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("16/09/2020"), Convert.ToDateTime("11/09/2020"));
+                List<string> result = hotelReservationTestOj.FindCheapestHotels();
             }
             catch (Exception e)
             {
@@ -65,8 +65,8 @@ namespace HotelReservationSystemNUnitTest
             hotelDetailsTestObj.AddHotel("Lakewood",3, 110, 90);
             hotelDetailsTestObj.AddHotel("Bridgewood",4, 150, 50);
             hotelDetailsTestObj.AddHotel("Ridgewood",5, 220, 150);
-            HotelReservation hotelReservationTestOj = new HotelReservation();
-            int result = hotelReservationTestOj.FindCheapestTotalRate(Convert.ToDateTime("11/09/2020"), Convert.ToDateTime("12/09/2020"));
+            HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("11/09/2020"), Convert.ToDateTime("12/09/2020"));
+            int result = hotelReservationTestOj.FindCheapestTotalRate();
             Assert.AreEqual(expected, result);
         }
     }

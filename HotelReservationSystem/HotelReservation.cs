@@ -8,14 +8,20 @@ namespace HotelReservationSystem
     //Class for Hotel Reservation
     public class HotelReservation
     {
-        //Method to find cheapest hotel
-        public List<string> FindCheapestHotels(DateTime startDate, DateTime endDate)
+        private DateTime startDate;
+        private DateTime endDate;
+        private int bestHotelRating;
+        private string bestHotel;
+        public HotelReservation(DateTime startDate, DateTime endDate)
         {
-            if (startDate > endDate)
-                throw new HotelReservationException(HotelReservationException.ExceptionType.START_DATE_GREATER_THEN_END_DATE, "Start Date greater then End Date");
-            if (HotelDetails.hotelRatesDict.Count == 0)
-                throw new HotelReservationException(HotelReservationException.ExceptionType.NO_HOTEL_ADDED, "No Hotel has been added yet");
-            List<string> cheapest = GetCheapestRateAndHotel(startDate, endDate);
+            this.startDate = startDate;
+            this.endDate = endDate;
+        }
+        //Method to find cheapest hotel
+        public List<string> FindCheapestHotels()
+        {
+            ValidateStartAndEndDate();
+            List<string> cheapest = GetCheapestRateAndHotel();
             List<string> cheapestHotels = new List<string>();
             for (int i = 1; i < cheapest.Count; i++)
             {
@@ -23,11 +29,35 @@ namespace HotelReservationSystem
             }
             return cheapestHotels;
         }
-        public int FindCheapestTotalRate(DateTime startDate, DateTime endDate)
+        public int FindCheapestTotalRate()
         {
-            return Convert.ToInt32(GetCheapestRateAndHotel(startDate, endDate)[0]);
+            ValidateStartAndEndDate();
+            return Convert.ToInt32(GetCheapestRateAndHotel()[0]);
         }
-        private List<string> GetCheapestRateAndHotel(DateTime startDate, DateTime endDate)
+        public string FindBestHotel()
+        {
+            List<string> cheapestHotels = FindCheapestHotels();
+            bestHotel = cheapestHotels[0];
+            bestHotelRating = HotelDetails.hotelRatings[cheapestHotels[0]];
+            if (cheapestHotels.Count > 1)
+            {
+                foreach (string hotelName in cheapestHotels)
+                {
+                    if (HotelDetails.hotelRatings[hotelName] > bestHotelRating)
+                    {
+                        bestHotelRating = HotelDetails.hotelRatings[hotelName];
+                        bestHotel = hotelName;
+                    }
+                }
+            }
+            return bestHotel;
+        }
+        public int FindBestHotelRating()
+        {
+            FindBestHotel();
+            return bestHotelRating;
+        }
+        private List<string> GetCheapestRateAndHotel()
         {
             Dictionary<string, int> hotelTotalRates = new Dictionary<string, int>();
             List<string> cheapest = new List<string>();
@@ -58,6 +88,13 @@ namespace HotelReservationSystem
             var hotelTotalRatesList = hotelTotalRates.ToList();
             hotelTotalRatesList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
             return hotelTotalRatesList;
+        }
+        private void ValidateStartAndEndDate()
+        {
+            if (startDate > endDate)
+                throw new HotelReservationException(HotelReservationException.ExceptionType.START_DATE_GREATER_THEN_END_DATE, "Start Date greater then End Date");
+            if (HotelDetails.hotelRatesDict.Count == 0)
+                throw new HotelReservationException(HotelReservationException.ExceptionType.NO_HOTEL_ADDED, "No Hotel has been added yet");
         }
 
     }

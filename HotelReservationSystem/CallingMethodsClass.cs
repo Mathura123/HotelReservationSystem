@@ -13,7 +13,7 @@ namespace HotelReservationSystem
         //Asks user for entry
         public static void ChooseOption()
         {
-            Console.WriteLine("Enter 1 : Add Hotel\nEnter 2 : Find Cheapest Hotel\nEnter 3 : Exit");
+            Console.WriteLine("Enter 1 : Add Hotel\nEnter 2 : Find Cheapest Hotels\nEnter 3 : Find Best Hotel\nEnter 4 : Exit");
             Console.Write("Your Entry : ");
             int enteredKey = default(int);
             try
@@ -34,10 +34,14 @@ namespace HotelReservationSystem
                         ChooseOption();
                         break;
                     case 2:
-                        CallingMethodsClass.CallHotelReservation();
+                        CallingMethodsClass.GetCheapestHotels();
                         ChooseOption();
                         break;
                     case 3:
+                        CallingMethodsClass.GetBestHotel();
+                        ChooseOption();
+                        break;
+                    case 4:
                         break;
                     default:
                         ColouredPrint.PrintInMagenta("Wrong key entered\nTry Again");
@@ -52,8 +56,8 @@ namespace HotelReservationSystem
                 ChooseOption();
             }
         }
-        //Private method or calling HotelReservation Method
-        private static void CallHotelReservation()
+        //Private method to call FindCheapestHotels method
+        private static void GetCheapestHotels()
         {
             Console.Write("Enter the Start Date in DD/MM/YYYY format : ");
             try
@@ -73,15 +77,41 @@ namespace HotelReservationSystem
             {
                 throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "End Date is Invalid");
             }
-            HotelReservation hotelReservationTestOj = new HotelReservation();
-            List<string> cheapestHotels = hotelReservationTestOj.FindCheapestHotels(startDate, endDate);
-            int cheapestRate = hotelReservationTestOj.FindCheapestTotalRate(startDate, endDate);
+            HotelReservation hotelReservationTestOj = new HotelReservation(startDate, endDate);
+            List<string> cheapestHotels = hotelReservationTestOj.FindCheapestHotels();
+            int cheapestRate = hotelReservationTestOj.FindCheapestTotalRate();
             ColouredPrint.PrintInRed("Cheapest hotels is/are : ",false,false);
             foreach(string hotel in cheapestHotels)
             {
                 ColouredPrint.PrintInRed($"{hotel}");
             }
             ColouredPrint.PrintInRed($"Cheapest Rate is {cheapestRate}");
+        }
+        //private method to call FindBestHotel Method
+        private static void GetBestHotel()
+        {
+            Console.Write("Enter the Start Date in DD/MM/YYYY format : ");
+            try
+            {
+                startDate = Convert.ToDateTime(Console.ReadLine());
+            }
+            catch
+            {
+                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "Start Date is Invalid");
+            }
+            Console.Write("Enter the End Date in DD/MM/YYYY format : ");
+            try
+            {
+                endDate = Convert.ToDateTime(Console.ReadLine());
+            }
+            catch
+            {
+                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "End Date is Invalid");
+            }
+            HotelReservation hotelReservationTestOj = new HotelReservation(startDate, endDate);
+            string bestHotel = hotelReservationTestOj.FindBestHotel();
+            int cheapestRate = hotelReservationTestOj.FindCheapestTotalRate();
+            ColouredPrint.PrintInRed($"Best Hotel is {bestHotel} with  Total rate {cheapestRate} and Rating {hotelReservationTestOj.FindBestHotelRating()}");
         }
         //Private method or calling AddHotel Method
         private static void CallAddHotel()
