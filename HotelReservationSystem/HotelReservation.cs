@@ -57,6 +57,32 @@ namespace HotelReservationSystem
             FindBestHotel();
             return bestHotelRating;
         }
+        public string FindHighestRatedHotel()
+        {
+            var hotelRatingsSorted = SortByValues(HotelDetails.hotelRatings);
+            return hotelRatingsSorted[hotelRatingsSorted.Count-1].Key;
+        }
+        public int FindHigestRatedHotelTotalRate()
+        {
+            int highestRatedHotelTotalRate = 0;
+            foreach (string hotelName in HotelDetails.hotelRatesDict.Keys.Where(x => x == FindHighestRatedHotel()))
+            {
+                DateTime iterartionDate = startDate;
+                while (iterartionDate != endDate.AddDays(1))
+                {
+                    int dayType = 0;
+                    if ((iterartionDate.DayOfWeek == DayOfWeek.Saturday) || (iterartionDate.DayOfWeek == DayOfWeek.Sunday))
+                        dayType = 1;
+                    highestRatedHotelTotalRate += HotelDetails.hotelRatesDict[hotelName][dayType];
+                    iterartionDate = iterartionDate.AddDays(1);
+                }
+            }
+            return highestRatedHotelTotalRate;
+        }
+        public int FindHighestRatedHotelRating()
+        {
+            return HotelDetails.hotelRatings[FindHighestRatedHotel()];
+        }
         private List<string> GetCheapestRateAndHotel()
         {
             Dictionary<string, int> hotelTotalRates = new Dictionary<string, int>();
@@ -74,7 +100,7 @@ namespace HotelReservationSystem
                     iterartionDate = iterartionDate.AddDays(1);
                 }
             }
-            var hotelTotalRatesList = SortHotelAccordingToTotalRates(hotelTotalRates);
+            var hotelTotalRatesList = SortByValues(hotelTotalRates);
             int cheapestRate = hotelTotalRatesList[0].Value;
             cheapest.Add(cheapestRate.ToString());
             for (int hotelIndex = 0; hotelTotalRatesList[hotelIndex].Value == cheapestRate; hotelIndex++)
@@ -83,11 +109,11 @@ namespace HotelReservationSystem
             }
             return cheapest;
         }
-        private List<KeyValuePair<string, int>> SortHotelAccordingToTotalRates(Dictionary<string, int> hotelTotalRates)
+        private List<KeyValuePair<string, int>> SortByValues(Dictionary<string, int> dict)
         {
-            var hotelTotalRatesList = hotelTotalRates.ToList();
-            hotelTotalRatesList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
-            return hotelTotalRatesList;
+            var dictToList = dict.ToList();
+            dictToList.Sort((pair1, pair2) => pair1.Value.CompareTo(pair2.Value));
+            return dictToList;
         }
         private void ValidateStartAndEndDate()
         {
@@ -96,6 +122,5 @@ namespace HotelReservationSystem
             if (HotelDetails.hotelRatesDict.Count == 0)
                 throw new HotelReservationException(HotelReservationException.ExceptionType.NO_HOTEL_ADDED, "No Hotel has been added yet");
         }
-
     }
 }

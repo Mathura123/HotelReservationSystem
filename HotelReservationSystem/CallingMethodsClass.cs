@@ -9,11 +9,11 @@ namespace HotelReservationSystem
     {
         private static DateTime startDate;
         private static DateTime endDate;
-        
+
         //Asks user for entry
         public static void ChooseOption()
         {
-            Console.WriteLine("Enter 1 : Add Hotel\nEnter 2 : Find Cheapest Hotels\nEnter 3 : Find Best Hotel\nEnter 4 : Exit");
+            Console.WriteLine("Enter 1 : Add Hotel\nEnter 2 : Show Cheapest Hotels\nEnter 3 : Book Best Hotel\nEnter 4 : Book Highest Rating Hotel\nEnter 5 : Exit");
             Console.Write("Your Entry : ");
             int enteredKey = default(int);
             try
@@ -42,6 +42,9 @@ namespace HotelReservationSystem
                         ChooseOption();
                         break;
                     case 4:
+                        CallingMethodsClass.GetHighestRatedHotel();
+                        break;
+                    case 5:
                         break;
                     default:
                         ColouredPrint.PrintInMagenta("Wrong key entered\nTry Again");
@@ -59,59 +62,34 @@ namespace HotelReservationSystem
         //Private method to call FindCheapestHotels method
         private static void GetCheapestHotels()
         {
-            Console.Write("Enter the Start Date in DD/MM/YYYY format : ");
-            try
-            {
-                startDate = Convert.ToDateTime(Console.ReadLine());
-            }
-            catch
-            {
-                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "Start Date is Invalid");
-            }
-            Console.Write("Enter the End Date in DD/MM/YYYY format : ");
-            try
-            {
-                endDate = Convert.ToDateTime(Console.ReadLine());
-            }
-            catch
-            {
-                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "End Date is Invalid");
-            }
-            HotelReservation hotelReservationTestOj = new HotelReservation(startDate, endDate);
+            DateTime[] dates = AskStartAndEndDate();
+            HotelReservation hotelReservationTestOj = new HotelReservation(dates[0], dates[1]);
             List<string> cheapestHotels = hotelReservationTestOj.FindCheapestHotels();
             int cheapestRate = hotelReservationTestOj.FindCheapestTotalRate();
-            ColouredPrint.PrintInRed("Cheapest hotels is/are : ",false,false);
-            foreach(string hotel in cheapestHotels)
+            ColouredPrint.PrintInRed("Cheapest hotels is/are : ", false, false);
+            foreach (string hotel in cheapestHotels)
             {
                 ColouredPrint.PrintInRed($"{hotel}");
             }
             ColouredPrint.PrintInRed($"Cheapest Rate is {cheapestRate}");
         }
+        private static void GetHighestRatedHotel()
+        {
+            DateTime[] dates = AskStartAndEndDate();
+            HotelReservation hotelReservationObj = new HotelReservation(dates[0], dates[1]);
+            string highestRatedHotel = hotelReservationObj.FindHighestRatedHotel();
+            int highestRatedHotelTotalRate = hotelReservationObj.FindHigestRatedHotelTotalRate();
+            int highestRatedHotelRating = hotelReservationObj.FindHighestRatedHotelRating();
+            ColouredPrint.PrintInRed($"Highest Rated hotel is {highestRatedHotel} with Total Fare {highestRatedHotelTotalRate} and Rating {highestRatedHotelRating}");
+        }
         //private method to call FindBestHotel Method
         private static void GetBestHotel()
         {
-            Console.Write("Enter the Start Date in DD/MM/YYYY format : ");
-            try
-            {
-                startDate = Convert.ToDateTime(Console.ReadLine());
-            }
-            catch
-            {
-                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "Start Date is Invalid");
-            }
-            Console.Write("Enter the End Date in DD/MM/YYYY format : ");
-            try
-            {
-                endDate = Convert.ToDateTime(Console.ReadLine());
-            }
-            catch
-            {
-                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "End Date is Invalid");
-            }
-            HotelReservation hotelReservationTestOj = new HotelReservation(startDate, endDate);
-            string bestHotel = hotelReservationTestOj.FindBestHotel();
-            int cheapestRate = hotelReservationTestOj.FindCheapestTotalRate();
-            ColouredPrint.PrintInRed($"Best Hotel is {bestHotel} with  Total rate {cheapestRate} and Rating {hotelReservationTestOj.FindBestHotelRating()}");
+            DateTime[] dates = AskStartAndEndDate();
+            HotelReservation hotelReservationObj = new HotelReservation(dates[0], dates[1]);
+            string bestHotel = hotelReservationObj.FindBestHotel();
+            int cheapestRate = hotelReservationObj.FindCheapestTotalRate();
+            ColouredPrint.PrintInRed($"Best Hotel is {bestHotel} with  Total rate {cheapestRate} and Rating {hotelReservationObj.FindBestHotelRating()}");
         }
         //Private method or calling AddHotel Method
         private static void CallAddHotel()
@@ -155,7 +133,30 @@ namespace HotelReservationSystem
                 goto label4;
             }
             HotelDetails hotelDetailsObj = new HotelDetails();
-            hotelDetailsObj.AddHotel(hotelName,hotelRating, weekdayRateForRegularCust, weekendRateForRegularCust);
+            hotelDetailsObj.AddHotel(hotelName, hotelRating, weekdayRateForRegularCust, weekendRateForRegularCust);
+        }
+        private static DateTime[] AskStartAndEndDate()
+        {
+            Console.Write("Enter the Start Date in DD/MM/YYYY format : ");
+            try
+            {
+                startDate = Convert.ToDateTime(Console.ReadLine());
+            }
+            catch
+            {
+                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "Start Date is Invalid");
+            }
+            Console.Write("Enter the End Date in DD/MM/YYYY format : ");
+            try
+            {
+                endDate = Convert.ToDateTime(Console.ReadLine());
+            }
+            catch
+            {
+                throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "End Date is Invalid");
+            }
+            DateTime[] dates = new DateTime[] { startDate, endDate };
+            return dates;
         }
     }
     //Class for printing lines in colour
