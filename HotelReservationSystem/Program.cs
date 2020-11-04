@@ -12,9 +12,18 @@ namespace HotelReservationSystem
             hotelDetailsTestObj.AddHotel("Lakewood", 110, 90);
             hotelDetailsTestObj.AddHotel("Bridgewood", 160, 60);
             hotelDetailsTestObj.AddHotel("Ridgewood", 220, 150);
-            HotelReservation hotelReservationTestOj = new HotelReservation();
-            string result = hotelReservationTestOj.FindCheapestHotel(Convert.ToDateTime("10/09/2020"), Convert.ToDateTime("11/09/2020"));
-            Console.WriteLine(result);
+        label1:
+            try
+            {
+                CallHotelReservation.CallingHotelReservation();
+            }
+            catch (HotelReservationException e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine("Try Again");
+                Console.WriteLine("------------------------------------");
+                goto label1;
+            }
         }
     }
 }

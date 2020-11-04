@@ -9,7 +9,8 @@ namespace HotelReservationSystem
         public enum ExceptionType
         {
             INVALID_HOTEL_NAME,
-            START_DATE_GREATER_THEN_END_DATE
+            START_DATE_GREATER_THEN_END_DATE,
+            INVALID_DATE
         }
         private ExceptionType type;
         public HotelReservationException(ExceptionType type, string message) : base(message)
