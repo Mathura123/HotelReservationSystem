@@ -13,12 +13,12 @@ namespace HotelReservationSystem
         public static Dictionary<string, int> hotelRatings = new Dictionary<string, int>();
 
         //Adds hotelName and rates dictionary hotelRatesDict. Overwrites rates if hotel already exists
-        public bool AddHotel(string hotelName,int rating, int weekdaysRateForRegularCust, int weekendsRateForRegularCust)
+        public bool AddHotel(string hotelName, int rating, int weekdaysRateForRegularCust, int weekendsRateForRegularCust, int weekdaysRateForRewardCust, int weekendsRateForRewardCust)
         {
             bool isHotelAdded = false;
             if (String.IsNullOrEmpty(hotelName))
                 throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_HOTEL_NAME, "Invalid Hotel Name");
-            List<int> rates = new List<int> { weekdaysRateForRegularCust, weekendsRateForRegularCust };
+            List<int> rates = new List<int> { weekdaysRateForRegularCust, weekendsRateForRegularCust, weekdaysRateForRewardCust, weekendsRateForRewardCust };
             //Removes hotel if already exists for overiding new rates
             if (hotelRatesDict.ContainsKey(hotelName))
             {
@@ -28,7 +28,7 @@ namespace HotelReservationSystem
             //Adds rates to hotelRatesDict
             hotelRatesDict.Add(hotelName, rates);
             //Adds hotel rating to hotelRatings
-            hotelRatings.Add(hotelName,rating);
+            hotelRatings.Add(hotelName, rating);
             isHotelAdded = true;
             ColouredPrint.PrintInRed($"Added {hotelName}");
             return isHotelAdded;

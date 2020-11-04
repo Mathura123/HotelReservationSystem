@@ -12,7 +12,7 @@ namespace HotelReservationSystemNUnitTest
         {
             bool expected = true;
             HotelDetails hotelDetailsTestObj = new HotelDetails();
-            bool result = hotelDetailsTestObj.AddHotel("Lakewood",3, 110, 90);
+            bool result = hotelDetailsTestObj.AddHotel("Lakewood",3, 110, 90, 80, 80);
             Assert.AreEqual(expected, result);
         }
         [Test]
@@ -21,7 +21,7 @@ namespace HotelReservationSystemNUnitTest
             try
             {
                 HotelDetails hotelDetailsTestObj = new HotelDetails();
-                bool result = hotelDetailsTestObj.AddHotel(null,3, 110, 90);
+                bool result = hotelDetailsTestObj.AddHotel(null,3, 110, 90,80,80);
             }
             catch (Exception e)
             {
@@ -33,9 +33,9 @@ namespace HotelReservationSystemNUnitTest
         {
             string expected = "Lakewood";
             HotelDetails hotelDetailsTestObj = new HotelDetails();
-            hotelDetailsTestObj.AddHotel("Lakewood",3, 110, 90);
-            hotelDetailsTestObj.AddHotel("Bridgewood",4, 150, 50);
-            hotelDetailsTestObj.AddHotel("Ridgewood",5, 220, 150);
+            hotelDetailsTestObj.AddHotel("Lakewood",3, 110, 90,80,80);
+            hotelDetailsTestObj.AddHotel("Bridgewood",4, 150, 50,110,50);
+            hotelDetailsTestObj.AddHotel("Ridgewood",5, 220, 150,100,40);
             HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("10/09/2020"), Convert.ToDateTime("11/09/2020"));
             List<string> result = hotelReservationTestOj.FindCheapestHotels();
             Assert.AreEqual(expected, result[0]);
@@ -46,9 +46,9 @@ namespace HotelReservationSystemNUnitTest
             try
             {
                 HotelDetails hotelDetailsTestObj = new HotelDetails();
-                hotelDetailsTestObj.AddHotel("Lakeood",3, 110, 90);
-                hotelDetailsTestObj.AddHotel("Bridewood",4, 150, 50);
-                hotelDetailsTestObj.AddHotel("Ridewood",5, 220, 150);
+                hotelDetailsTestObj.AddHotel("Lakewood", 3, 110, 90, 80, 80);
+                hotelDetailsTestObj.AddHotel("Bridgewood", 4, 150, 50, 110, 50);
+                hotelDetailsTestObj.AddHotel("Ridgewood", 5, 220, 150, 100, 40);
                 HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("16/09/2020"), Convert.ToDateTime("11/09/2020"));
                 List<string> result = hotelReservationTestOj.FindCheapestHotels();
             }
@@ -62,9 +62,9 @@ namespace HotelReservationSystemNUnitTest
         {
             int expected = 200;
             HotelDetails hotelDetailsTestObj = new HotelDetails();
-            hotelDetailsTestObj.AddHotel("Lakewood",3, 110, 90);
-            hotelDetailsTestObj.AddHotel("Bridgewood",4, 150, 50);
-            hotelDetailsTestObj.AddHotel("Ridgewood",5, 220, 150);
+            hotelDetailsTestObj.AddHotel("Lakewood", 3, 110, 90, 80, 80);
+            hotelDetailsTestObj.AddHotel("Bridgewood", 4, 150, 50, 110, 50);
+            hotelDetailsTestObj.AddHotel("Ridgewood", 5, 220, 150, 100, 40);
             HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("11/09/2020"), Convert.ToDateTime("12/09/2020"));
             int result = hotelReservationTestOj.FindCheapestTotalRate();
             Assert.AreEqual(expected, result);
@@ -74,9 +74,9 @@ namespace HotelReservationSystemNUnitTest
         {
             string expected = "Bridgewood";
             HotelDetails hotelDetailsTestObj = new HotelDetails();
-            hotelDetailsTestObj.AddHotel("Lakewood", 3, 110, 90);
-            hotelDetailsTestObj.AddHotel("Bridgewood", 4, 150, 50);
-            hotelDetailsTestObj.AddHotel("Ridgewood", 5, 220, 150);
+            hotelDetailsTestObj.AddHotel("Lakewood", 3, 110, 90, 80, 80);
+            hotelDetailsTestObj.AddHotel("Bridgewood", 4, 150, 50, 110, 50);
+            hotelDetailsTestObj.AddHotel("Ridgewood", 5, 220, 150, 100, 40);
             HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("11/09/2020"), Convert.ToDateTime("12/09/2020"));
             string result = hotelReservationTestOj.FindBestHotel();
             Assert.AreEqual(expected, result);
@@ -86,9 +86,9 @@ namespace HotelReservationSystemNUnitTest
         {
             string expected = "Ridgewood";
             HotelDetails hotelDetailsTestObj = new HotelDetails();
-            hotelDetailsTestObj.AddHotel("Lakewood", 3, 110, 90);
-            hotelDetailsTestObj.AddHotel("Bridgewood", 4, 150, 50);
-            hotelDetailsTestObj.AddHotel("Ridgewood", 5, 220, 150);
+            hotelDetailsTestObj.AddHotel("Lakewood", 3, 110, 90, 80, 80);
+            hotelDetailsTestObj.AddHotel("Bridgewood", 4, 150, 50, 110, 50);
+            hotelDetailsTestObj.AddHotel("Ridgewood", 5, 220, 150, 100, 40);
             HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("11/09/2020"), Convert.ToDateTime("12/09/2020"));
             string result = hotelReservationTestOj.FindHighestRatedHotel();
             Assert.AreEqual(expected, result);

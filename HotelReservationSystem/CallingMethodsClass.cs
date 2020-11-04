@@ -112,6 +112,8 @@ namespace HotelReservationSystem
             Console.Write("Enter the Weekday Rate For Regular Customer : ");
             int weekdayRateForRegularCust;
             int weekendRateForRegularCust;
+            int weekdayRateForRewardCust;
+            int weekendRateForRewardCust;
             try
             {
                 weekdayRateForRegularCust = Convert.ToInt32(Console.ReadLine());
@@ -132,8 +134,30 @@ namespace HotelReservationSystem
                 ColouredPrint.PrintInMagenta("Wrong value");
                 goto label4;
             }
+        label5:
+            Console.Write("Enter the Weekday Rate For Reward Customer : ");
+            try
+            {
+                weekdayRateForRewardCust = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                ColouredPrint.PrintInMagenta("Wrong value");
+                goto label5;
+            }
+        label6:
+            Console.Write("Enter the Weekend Rate For Reward Customer : ");
+            try
+            {
+                weekendRateForRewardCust = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                ColouredPrint.PrintInMagenta("Wrong value");
+                goto label6;
+            }
             HotelDetails hotelDetailsObj = new HotelDetails();
-            hotelDetailsObj.AddHotel(hotelName, hotelRating, weekdayRateForRegularCust, weekendRateForRegularCust);
+            hotelDetailsObj.AddHotel(hotelName, hotelRating, weekdayRateForRegularCust, weekendRateForRegularCust,weekdayRateForRewardCust,weekendRateForRewardCust);
         }
         private static DateTime[] AskStartAndEndDate()
         {
