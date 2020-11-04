@@ -74,8 +74,14 @@ namespace HotelReservationSystem
                 throw new HotelReservationException(HotelReservationException.ExceptionType.INVALID_DATE, "End Date is Invalid");
             }
             HotelReservation hotelReservationTestOj = new HotelReservation();
-            string cheapestHotel = hotelReservationTestOj.FindCheapestHotel(startDate, endDate);
-            ColouredPrint.PrintInRed($"Cheapest Hotel is {cheapestHotel}");
+            List<string> cheapestHotels = hotelReservationTestOj.FindCheapestHotels(startDate, endDate);
+            int cheapestRate = hotelReservationTestOj.FindCheapestTotalRate(startDate, endDate);
+            ColouredPrint.PrintInRed("Cheapest hotels is/are : ",false,false);
+            foreach(string hotel in cheapestHotels)
+            {
+                ColouredPrint.PrintInRed($"{hotel}");
+            }
+            ColouredPrint.PrintInRed($"Cheapest Rate is {cheapestRate}");
         }
         //Private method or calling AddHotel Method
         private static void CallAddHotel()
