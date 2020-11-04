@@ -11,7 +11,7 @@ namespace HotelReservationSystem
         public string FindCheapestHotel(DateTime startDate, DateTime endDate)
         {
             if (startDate > endDate)
-                throw new HotelReservationException(HotelReservationException.ExceptionType.START_DATE_GREATER_THEN_END_DATE, "Start Date cannot be after end date");
+                throw new HotelReservationException(HotelReservationException.ExceptionType.START_DATE_GREATER_THEN_END_DATE, "Start Date greater then End Date");
             string cheapestWeekDayHotel = HotelDetails.hotelRatesDict.ElementAt(0).Key;
             string cheapestWeekEndHotel = HotelDetails.hotelRatesDict.ElementAt(0).Key;
             int cheapestWeekDayHotelRate = HotelDetails.hotelRatesDict[cheapestWeekDayHotel][0];
