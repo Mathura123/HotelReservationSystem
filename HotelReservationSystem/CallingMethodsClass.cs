@@ -89,6 +89,18 @@ namespace HotelReservationSystem
             Console.Write("Enter the Hotel Name : ");
             string hotelName = Console.ReadLine();
         label2:
+            Console.Write("Enter the Hotel Rating : ");
+            int hotelRating;
+            try
+            {
+                hotelRating = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                ColouredPrint.PrintInMagenta("Wrong value");
+                goto label2;
+            }
+        label3:
             Console.Write("Enter the Weekday Rate For Regular Customer : ");
             int weekdayRateForRegularCust;
             int weekendRateForRegularCust;
@@ -99,9 +111,9 @@ namespace HotelReservationSystem
             catch
             {
                 ColouredPrint.PrintInMagenta("Wrong value");
-                goto label2;
+                goto label3;
             }
-        label3:
+        label4:
             Console.Write("Enter the Weekend Rate For Regular Customer : ");
             try
             {
@@ -110,10 +122,10 @@ namespace HotelReservationSystem
             catch
             {
                 ColouredPrint.PrintInMagenta("Wrong value");
-                goto label3;
+                goto label4;
             }
             HotelDetails hotelDetailsObj = new HotelDetails();
-            hotelDetailsObj.AddHotel(hotelName, weekdayRateForRegularCust, weekendRateForRegularCust);
+            hotelDetailsObj.AddHotel(hotelName,hotelRating, weekdayRateForRegularCust, weekendRateForRegularCust);
         }
     }
     //Class for printing lines in colour
