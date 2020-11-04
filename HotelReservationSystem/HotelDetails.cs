@@ -8,12 +8,12 @@ namespace HotelReservationSystem
     public class HotelDetails
     {
         private int hotelRating;
-        private readonly Dictionary<string, List<int>> hotelRatesDict = null;
+        public static Dictionary<string, List<int>> hotelRatesDict = null;
 
         //Constructor to instantiate hotelRatesDict
         public HotelDetails()
         {
-            this.hotelRatesDict = new Dictionary<string, List<int>>();
+            hotelRatesDict = new Dictionary<string, List<int>>();
         }
 
         //Adds hotelName and rates dictionary hotelRatesDict. Overwrites rates if hotel already exists
