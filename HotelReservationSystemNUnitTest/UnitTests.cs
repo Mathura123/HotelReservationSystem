@@ -69,5 +69,17 @@ namespace HotelReservationSystemNUnitTest
             int result = hotelReservationTestOj.FindCheapestTotalRate();
             Assert.AreEqual(expected, result);
         }
+        [Test]
+        public void WhenGiven_StartDate_And_EndDate_To_FindBestHotel_ShouldReturn_BestHotel()
+        {
+            string expected = "Bridgewood";
+            HotelDetails hotelDetailsTestObj = new HotelDetails();
+            hotelDetailsTestObj.AddHotel("Lakewood", 3, 110, 90);
+            hotelDetailsTestObj.AddHotel("Bridgewood", 4, 150, 50);
+            hotelDetailsTestObj.AddHotel("Ridgewood", 5, 220, 150);
+            HotelReservation hotelReservationTestOj = new HotelReservation(Convert.ToDateTime("11/09/2020"), Convert.ToDateTime("12/09/2020"));
+            string result = hotelReservationTestOj.FindBestHotel();
+            Assert.AreEqual(expected, result);
+        }
     }
 }
