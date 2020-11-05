@@ -194,25 +194,32 @@ namespace HotelReservationSystem
         //private method to ask detail about customer type to user
         private static CustomerType AskCustomerType()
         {
+        label7:
             CustomerType custType;
             Console.WriteLine("Enter REGULAR for Regular Customer\nEnter REWARD for Reward Customer");
             Console.Write("Your Entry : ");
-            custType = CustomerType.REGULAR_CUST;
-            string customerType = Console.ReadLine();
-            if (ValidateRewardCust(customerType))
-            {
+            int custTypeValidity = ValidateCustType(Console.ReadLine());
+            if (custTypeValidity == 0)
+                custType = CustomerType.REGULAR_CUST;
+            else if (custTypeValidity == 1)
                 custType = CustomerType.REWARD_CUST;
+            else
+            {
+                ColouredPrint.PrintInMagenta("Entered Customer type is INVALID\nTry Again");
+                goto label7;
             }
             return custType;
         }
-        //Validates reawrd SScustomerType entry by user
-        private static bool ValidateRewardCust(string custType)
+        //Validates customerType entry by user. Return is 0 is Regular type, 1 if Reward type, 2 if invalid
+        private static int ValidateCustType(string custType)
         {
-            if (Regex.IsMatch(custType, regexForRewardCust))
-                return true;
-            return false;
+            if (Regex.IsMatch(custType, regexForRegularCust))
+                return 0;
+            else if (Regex.IsMatch(custType, regexForRewardCust))
+                return 1;
+            else
+                return 2;
         }
-
     }
     //Class for printing lines in colour
     public class ColouredPrint
