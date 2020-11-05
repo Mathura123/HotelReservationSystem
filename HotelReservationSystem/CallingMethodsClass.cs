@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace HotelReservationSystem
 {
     public class CallingMethodsClass
     {
+        private static string regexForRegularCust = @"^[Rr][Ee][Gg][Uu][Ll][Aa][Rr]$";
+        private static string regexForRewardCust = @"^[Rr][Ee][Ww][Aa][Rr][Dd]$";
         private static DateTime startDate;
         private static DateTime endDate;
 
@@ -43,6 +46,7 @@ namespace HotelReservationSystem
                         break;
                     case 4:
                         CallingMethodsClass.GetHighestRatedHotel();
+                        ChooseOption();
                         break;
                     case 5:
                         break;
@@ -191,33 +195,24 @@ namespace HotelReservationSystem
         private static CustomerType AskCustomerType()
         {
             CustomerType custType;
-        label7:
-            Console.WriteLine("Enter 1 : For Regular Customer\nEnter 2 : For Reward Customer");
+            Console.WriteLine("Enter REGULAR for Regular Customer\nEnter REWARD for Reward Customer");
             Console.Write("Your Entry : ");
-            int userEntry;
-            try
+            custType = CustomerType.REGULAR_CUST;
+            string customerType = Console.ReadLine();
+            if (ValidateRewardCust(customerType))
             {
-                userEntry = Convert.ToInt32(Console.ReadLine());
-            }
-            catch
-            {
-                ColouredPrint.PrintInMagenta("Invalid Entry");
-                goto label7;
-            }
-            switch (userEntry)
-            {
-                case 1:
-                    custType = CustomerType.REGULAR_CUST;
-                    break;
-                case 2:
-                    custType = CustomerType.REWARD_CUST;
-                    break;
-                default:
-                    ColouredPrint.PrintInMagenta("Invalid Entry");
-                    goto label7;
+                custType = CustomerType.REWARD_CUST;
             }
             return custType;
         }
+        //Validates reawrd SScustomerType entry by user
+        private static bool ValidateRewardCust(string custType)
+        {
+            if (Regex.IsMatch(custType, regexForRewardCust))
+                return true;
+            return false;
+        }
+
     }
     //Class for printing lines in colour
     public class ColouredPrint
