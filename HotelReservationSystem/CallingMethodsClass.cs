@@ -63,9 +63,10 @@ namespace HotelReservationSystem
         private static void GetCheapestHotels()
         {
             DateTime[] dates = AskStartAndEndDate();
-            HotelReservation hotelReservationTestOj = new HotelReservation(dates[0], dates[1]);
-            List<string> cheapestHotels = hotelReservationTestOj.FindCheapestHotels();
-            int cheapestRate = hotelReservationTestOj.FindCheapestTotalRate();
+            CustomerType custType = AskCustomerType();
+            HotelReservation hotelReservationObj = new HotelReservation(custType, dates[0], dates[1]);
+            List<string> cheapestHotels = hotelReservationObj.FindCheapestHotels();
+            int cheapestRate = hotelReservationObj.FindCheapestTotalRate();
             ColouredPrint.PrintInRed("Cheapest hotels is/are : ", false, false);
             foreach (string hotel in cheapestHotels)
             {
@@ -73,10 +74,12 @@ namespace HotelReservationSystem
             }
             ColouredPrint.PrintInRed($"Cheapest Rate is {cheapestRate}");
         }
+        //private method to call FindHighestRatedHotel method
         private static void GetHighestRatedHotel()
         {
             DateTime[] dates = AskStartAndEndDate();
-            HotelReservation hotelReservationObj = new HotelReservation(dates[0], dates[1]);
+            CustomerType custType = AskCustomerType();
+            HotelReservation hotelReservationObj = new HotelReservation(custType, dates[0], dates[1]);
             string highestRatedHotel = hotelReservationObj.FindHighestRatedHotel();
             int highestRatedHotelTotalRate = hotelReservationObj.FindHigestRatedHotelTotalRate();
             int highestRatedHotelRating = hotelReservationObj.FindHighestRatedHotelRating();
@@ -86,12 +89,13 @@ namespace HotelReservationSystem
         private static void GetBestHotel()
         {
             DateTime[] dates = AskStartAndEndDate();
-            HotelReservation hotelReservationObj = new HotelReservation(dates[0], dates[1]);
+            CustomerType custType = AskCustomerType();
+            HotelReservation hotelReservationObj = new HotelReservation(custType, dates[0], dates[1]);
             string bestHotel = hotelReservationObj.FindBestHotel();
             int cheapestRate = hotelReservationObj.FindCheapestTotalRate();
-            ColouredPrint.PrintInRed($"Best Hotel is {bestHotel} with  Total rate {cheapestRate} and Rating {hotelReservationObj.FindBestHotelRating()}");
+            ColouredPrint.PrintInRed($"Best Hotel is {bestHotel} with Total rate {cheapestRate} and Rating {hotelReservationObj.FindBestHotelRating()}");
         }
-        //Private method or calling AddHotel Method
+        //private method or calling AddHotel Method
         private static void CallAddHotel()
         {
             Console.Write("Enter the Hotel Name : ");
@@ -157,8 +161,9 @@ namespace HotelReservationSystem
                 goto label6;
             }
             HotelDetails hotelDetailsObj = new HotelDetails();
-            hotelDetailsObj.AddHotel(hotelName, hotelRating, weekdayRateForRegularCust, weekendRateForRegularCust,weekdayRateForRewardCust,weekendRateForRewardCust);
+            hotelDetailsObj.AddHotel(hotelName, hotelRating, weekdayRateForRegularCust, weekendRateForRegularCust, weekdayRateForRewardCust, weekendRateForRewardCust);
         }
+        //private method to ask detail about start and end date to user
         private static DateTime[] AskStartAndEndDate()
         {
             Console.Write("Enter the Start Date in DD/MM/YYYY format : ");
@@ -181,6 +186,37 @@ namespace HotelReservationSystem
             }
             DateTime[] dates = new DateTime[] { startDate, endDate };
             return dates;
+        }
+        //private method to ask detail about customer type to user
+        private static CustomerType AskCustomerType()
+        {
+            CustomerType custType;
+        label7:
+            Console.WriteLine("Enter 1 : For Regular Customer\nEnter 2 : For Reward Customer");
+            Console.Write("Your Entry : ");
+            int userEntry;
+            try
+            {
+                userEntry = Convert.ToInt32(Console.ReadLine());
+            }
+            catch
+            {
+                ColouredPrint.PrintInMagenta("Invalid Entry");
+                goto label7;
+            }
+            switch (userEntry)
+            {
+                case 1:
+                    custType = CustomerType.REGULAR_CUST;
+                    break;
+                case 2:
+                    custType = CustomerType.REWARD_CUST;
+                    break;
+                default:
+                    ColouredPrint.PrintInMagenta("Invalid Entry");
+                    goto label7;
+            }
+            return custType;
         }
     }
     //Class for printing lines in colour

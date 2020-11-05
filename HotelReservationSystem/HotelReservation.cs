@@ -10,10 +10,12 @@ namespace HotelReservationSystem
     {
         private DateTime startDate;
         private DateTime endDate;
+        private CustomerType custType;
         private int bestHotelRating;
         private string bestHotel;
-        public HotelReservation(DateTime startDate, DateTime endDate)
+        public HotelReservation(CustomerType custType, DateTime startDate, DateTime endDate)
         {
+            this.custType = custType;
             this.startDate = startDate;
             this.endDate = endDate;
         }
@@ -60,7 +62,7 @@ namespace HotelReservationSystem
         public string FindHighestRatedHotel()
         {
             var hotelRatingsSorted = SortByValues(HotelDetails.hotelRatings);
-            return hotelRatingsSorted[hotelRatingsSorted.Count-1].Key;
+            return hotelRatingsSorted[hotelRatingsSorted.Count - 1].Key;
         }
         public int FindHigestRatedHotelTotalRate()
         {
@@ -70,10 +72,13 @@ namespace HotelReservationSystem
                 DateTime iterartionDate = startDate;
                 while (iterartionDate != endDate.AddDays(1))
                 {
-                    int dayType = 0;
+                    int custumerInt = 0;
+                    if (custType == CustomerType.REWARD_CUST)
+                        custumerInt = 2;
+                    int dayInt = 0;
                     if ((iterartionDate.DayOfWeek == DayOfWeek.Saturday) || (iterartionDate.DayOfWeek == DayOfWeek.Sunday))
-                        dayType = 1;
-                    highestRatedHotelTotalRate += HotelDetails.hotelRatesDict[hotelName][dayType];
+                        dayInt= 1;
+                    highestRatedHotelTotalRate += HotelDetails.hotelRatesDict[hotelName][dayInt + custumerInt];
                     iterartionDate = iterartionDate.AddDays(1);
                 }
             }
@@ -93,10 +98,13 @@ namespace HotelReservationSystem
                 DateTime iterartionDate = startDate;
                 while (iterartionDate != endDate.AddDays(1))
                 {
-                    int dayType = 0;
+                    int custumerInt = 0;
+                    if (custType == CustomerType.REWARD_CUST)
+                        custumerInt = 2;
+                    int dayInt = 0;
                     if ((iterartionDate.DayOfWeek == DayOfWeek.Saturday) || (iterartionDate.DayOfWeek == DayOfWeek.Sunday))
-                        dayType = 1;
-                    hotelTotalRates[hotelName] += HotelDetails.hotelRatesDict[hotelName][dayType];
+                        dayInt = 1;
+                    hotelTotalRates[hotelName] += HotelDetails.hotelRatesDict[hotelName][dayInt + custumerInt];
                     iterartionDate = iterartionDate.AddDays(1);
                 }
             }
